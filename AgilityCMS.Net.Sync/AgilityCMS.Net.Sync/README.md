@@ -10,7 +10,7 @@ To start using the Agility CMS & .NET 5 Starter, [sign up](https://agilitycms.co
 - Provides a facility to developers to sync their Pages, Items and Lists in their local file system.
 - Provides methods to clear the sync if you want to delete the generated files.
 - Supports generation of files in live and preview mode with the specified locale.
-- Ability to generate the objects from the extracted files of Pages, Items and Lists based on their respective Id's.😎
+- Ability to generate the objects from the extracted files of Pages, Items and Lists based on their respective Id's.
 
 ## Getting Started
 
@@ -25,15 +25,15 @@ To start using the Agility CMS & .NET 5 Starter, [sign up](https://agilitycms.co
 4. Create an object of SyncOptions class to provide values of - 
 	- rootPath -> This will be the path where the output will be stored. This should be a physical path on your local file system.
 	- locale -> The locale under which your application is hosted. Example en-us.
-5. Create string variables of Guid (your Instace Guid) and APIKey (either defaultlive or defaultpreview value). These values can be found under Settings -> API Keys section of your organization.
+5. Create string variables of Guid (your Instance Guid) and APIKey (either defaultlive or defaultpreview value). These values can be found under Settings -> API Keys section of your organization.
 6. Create a boolean variable as IsPreview. A true value specifies that the application will run in preview mode else live mode. Make sure the API Key value should correspond the value of IsPreview variable.
 7. Create an object of SyncClient class and you may call following methods - 
 	- SyncPages -> To sync pages.
 	- SyncContent -> To sync items and lists.
 	- ClearSync -> To delete the generated files from the application.
-	- GetPage -> Provide the pageId and the path where the page is generated to create an object of PageItems class.
-	- GetItems -> Provide the contentID and the path where an item is generated to create an object of ContentItems class.
-	- GetList -> Provide the referenceName and the path where a list is generated to create an object of List<ContentItems>.
+	- GetPage -> Provide the pageId and the path where the page is generated to create an object of PageItems class. Use the store property of the object of SyncClient class to call the method.
+	- GetItems -> Provide the contentID and the path where an item is generated to create an object of ContentItems class. Use the store property of the object of SyncClient class to call the method.
+	- GetList -> Provide the referenceName and the path where a list is generated to create an object of List<ContentItems>. Use the store property of the object of SyncClient class to call the method.
 
 ## Running the SDK Locally
 
