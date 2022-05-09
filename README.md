@@ -14,8 +14,7 @@ To start using the Agility CMS & .NET 5 Starter, [sign up](https://agilitycms.co
 
 ## Getting Started
 
-🚨 Before you dive into the code, it's important that you have the latest version of the [.NET SDK](https://dotnet.microsoft.com/download) installed on your machine (>=v6.0), as the project will _not_ run without this.
-🚨 Install the Nuget Packages Newtonsoft.Json (13.0.1) & RestSharp (106.11.7).
+🚨 Before you dive into the code, it's important that you have the latest version of the [.NET SDK](https://dotnet.microsoft.com/download) installed on your machine (>=v6.0), as the project will _not_ run without this. Install the Nuget Packages Newtonsoft.Json (13.0.1) & RestSharp (106.11.7).
 
 ### Generating/Syncing Pages, Items and Lists from your Agility Instance
 
