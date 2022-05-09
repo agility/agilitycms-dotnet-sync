@@ -13,7 +13,7 @@ namespace AgilityCMS.Net.Sync.SDK
         /// <param name="contentId"></param>
         /// <param name="locale"></param>
         /// <returns></returns>
-        public ContentItems GetItems(int contentId, string locale)
+        public ContentItems GetContentItem(int contentId, string locale)
         {
             try
             {
@@ -61,7 +61,7 @@ namespace AgilityCMS.Net.Sync.SDK
         /// <param name="referenceName"></param>
         /// <param name="locale"></param>
         /// <returns></returns>
-        public List<ContentItems> GetList(string referenceName, string locale)
+        public List<ContentItems> GetContentList(string referenceName, string locale)
         {
             try
             {
