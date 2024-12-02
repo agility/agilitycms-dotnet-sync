@@ -99,16 +99,16 @@ namespace AgilityCMS.Net.Sync.Tests
 
 
                 var testPageIDStr = Environment.GetEnvironmentVariable("Test-PageID");
-                var testPageID = int.Parse(testPageIDStr);
+                var testPageID = int.Parse(testPageIDStr ?? "");
 
                 _syncClient.SyncPages();
-                //var actualSyncPage = _syncClient.store.GetPage(testPageID, $"{mainPath}\\live\\{_syncOptions.locale}\\{_syncOptions.pagesFolder}");
+
                 var actualSyncPage = _syncClient.store.GetPage(testPageID, $"{_syncOptions.locale}");
 
                 Assert.IsNotNull(actualSyncPage);
                 Assert.AreEqual(testPageID, actualSyncPage.pageID);
 
-                Assert.AreNotEqual(true, actualSyncPage.seo.sitemapVisible, "The sitemapVisible property is not correct.");
+                Assert.AreNotEqual(true, actualSyncPage.seo?.sitemapVisible, "The sitemapVisible property is not correct.");
 
             }
             catch (Exception ex)
@@ -134,7 +134,7 @@ namespace AgilityCMS.Net.Sync.Tests
                 Assert.AreEqual(testContentID, actualSyncContent1.contentID);
 
                 var actualList1 = _syncClient.store.GetContentList(testContentRef ?? "", $"{_syncOptions.locale}");
-                Assert.AreEqual(testContentRef, actualList1[0].properties.referenceName ?? "");
+                Assert.AreEqual(testContentRef, actualList1[0].properties?.referenceName ?? "");
             }
             catch (Exception ex)
             {
@@ -147,7 +147,7 @@ namespace AgilityCMS.Net.Sync.Tests
         {
             try
             {
-                //HACK  _syncClient.ClearSync();
+                _syncClient.ClearSync();
                 Assert.IsTrue(true);
             }
             catch (Exception ex)
