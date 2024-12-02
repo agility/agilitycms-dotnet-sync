@@ -11,7 +11,7 @@ namespace AgilityCMS.Net.Sync.SDK.Models.Page
         public string metaDescription { get; set; }
         public string metaKeywords { get; set; }
         public string metaHTML { get; set; }
-        public string menuVisible { get; set; }
-        public string sitemapVisible { get; set; }
+        public Boolean? menuVisible { get; set; }
+        public Boolean? sitemapVisible { get; set; }
     }
 }
