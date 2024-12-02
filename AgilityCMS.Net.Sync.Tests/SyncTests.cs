@@ -1,11 +1,6 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using AgilityCMS.Net.Sync.SDK;
 using System;
-using Newtonsoft.Json;
-using AgilityCMS.Net.Sync.SDK.Models.Page;
-using System.IO;
-using AgilityCMS.Net.Sync.SDK.Models.Item;
-using System.Collections.Generic;
 
 namespace AgilityCMS.Net.Sync.Tests
 {
@@ -20,11 +15,11 @@ namespace AgilityCMS.Net.Sync.Tests
         public SyncTests()
         {
             _syncOptions = new SyncOptions();
-            _syncOptions.rootPath = @"<<Your Local Path>>";
-            _syncOptions.locale = "<<Mention the Locale example en-us>>";
-            _guid = "<<Provide your Instance GUID>>";
-            _apiKey = "<<Provide your API Key>>";
-            _isPreview = false;
+            _syncOptions.rootPath = Environment.GetEnvironmentVariable("Test-LocalPath") ?? "";
+            _syncOptions.locale = Environment.GetEnvironmentVariable("Test-Locale") ?? "";
+            _guid = Environment.GetEnvironmentVariable("Test-InstanceGuid") ?? "";
+            _apiKey = Environment.GetEnvironmentVariable("Test-APIKey") ?? "";
+            _isPreview = Environment.GetEnvironmentVariable("Test-IsPreview") == "true" ? true : false;
             _syncClient = new SyncClient(_guid, _apiKey, _isPreview, _syncOptions);
         }
         [TestMethod]
@@ -46,7 +41,7 @@ namespace AgilityCMS.Net.Sync.Tests
         {
             try
             {
-                Assert.IsNotNull(_guid, $"Please provide a value to guid.");
+                Assert.IsNotNull(_guid, $"Please provide a value for the guid.");
                 Assert.IsNotNull(_syncOptions.rootPath, $"Please provide a path to SyncOptions.rootpath.");
                 Assert.IsNotNull(_syncOptions.locale, $"Please provide a value to SyncOptions.locale.");
                 Assert.IsNotNull(_apiKey, $"Please provide an API Key");
@@ -63,7 +58,8 @@ namespace AgilityCMS.Net.Sync.Tests
         {
             try
             {
-                Assert.IsNotNull(_guid, $"Please provide a value to guid.");
+
+                Assert.IsNotNull(_guid, $"Please provide a value for the guid.");
                 Assert.IsNotNull(_syncOptions.rootPath, $"Please provide a path to SyncOptions.rootpath.");
                 Assert.IsNotNull(_syncOptions.locale, $"Please provide a value to SyncOptions.locale.");
                 Assert.IsNotNull(_apiKey, $"Please provide an API Key");
@@ -80,7 +76,7 @@ namespace AgilityCMS.Net.Sync.Tests
         {
             try
             {
-                Assert.IsNotNull(_guid, $"Please provide a value to guid.");
+                Assert.IsNotNull(_guid, $"Please provide a value for the guid.");
                 Assert.IsNotNull(_syncOptions.rootPath, $"Please provide a path to SyncOptions.rootpath.");
                 Assert.IsNotNull(_syncOptions.locale, $"Please provide a value to SyncOptions.locale.");
                 Assert.IsNotNull(_apiKey, $"Please provide an API Key");
@@ -99,10 +95,21 @@ namespace AgilityCMS.Net.Sync.Tests
             try
             {
                 var mainPath = $"{_syncOptions.rootPath}\\agility_files\\{_guid}";
-                var expectedSyncPage = JsonConvert.DeserializeObject<PageItems>(File.ReadAllText(@"<<Provide your local file path extracted for a Page Id>>"));
+
+
+
+                var testPageIDStr = Environment.GetEnvironmentVariable("Test-PageID");
+                var testPageID = int.Parse(testPageIDStr ?? "");
+
                 _syncClient.SyncPages();
-                var actualSyncPage = _syncClient.store.GetPage(15, $"{mainPath}\\live\\{_syncOptions.locale}\\{_syncOptions.pagesFolder}");
-                Assert.AreEqual(expectedSyncPage.pageID, actualSyncPage.pageID);
+
+                var actualSyncPage = _syncClient.store.GetPage(testPageID, $"{_syncOptions.locale}");
+
+                Assert.IsNotNull(actualSyncPage);
+                Assert.AreEqual(testPageID, actualSyncPage.pageID);
+
+                Assert.AreNotEqual(true, actualSyncPage.seo?.sitemapVisible, "The sitemapVisible property is not correct.");
+
             }
             catch (Exception ex)
             {
@@ -115,15 +122,19 @@ namespace AgilityCMS.Net.Sync.Tests
             try
             {
                 var mainPath = $"{_syncOptions.rootPath}\\agility_files\\{_guid}";
-                var expectedSyncContent = JsonConvert.DeserializeObject<ContentItems>(File.ReadAllText(@"<<Provide your local file path extracted for a Content Id>>"));
 
-                var expectedList = JsonConvert.DeserializeObject<List<ContentItems>>(File.ReadAllText(@"<<Provide your local file path extracted for a Reference Name>>"));
+                var testContentRef = Environment.GetEnvironmentVariable("Test-ContentReferenceName");
+                var testContentIDStr = Environment.GetEnvironmentVariable("Test-ContentID");
+                var testContentID = int.Parse(testContentIDStr ?? "");
+
                 _syncClient.SynContent();
-                var actualSyncContent1 = _syncClient.store.GetContentItem(290, $"{mainPath}\\live\\{_syncOptions.locale}\\{_syncOptions.contentsFolder}");
-                Assert.AreEqual(expectedSyncContent.contentID, actualSyncContent1.contentID);
 
-                var actualList1 = _syncClient.store.GetContentList("contentfortestingwithmorefields", $"{ mainPath}\\live\\{_syncOptions.locale}\\{_syncOptions.listsFolder}");
-                Assert.AreEqual(expectedList[0].properties.referenceName, actualList1[0].properties.referenceName);
+                var actualSyncContent1 = _syncClient.store.GetContentItem(testContentID, $"{_syncOptions.locale}");
+
+                Assert.AreEqual(testContentID, actualSyncContent1.contentID);
+
+                var actualList1 = _syncClient.store.GetContentList(testContentRef ?? "", $"{_syncOptions.locale}");
+                Assert.AreEqual(testContentRef, actualList1[0].properties?.referenceName ?? "");
             }
             catch (Exception ex)
             {
