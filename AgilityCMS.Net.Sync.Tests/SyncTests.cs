@@ -20,10 +20,10 @@ namespace AgilityCMS.Net.Sync.Tests
         public SyncTests()
         {
             _syncOptions = new SyncOptions();
-            _syncOptions.rootPath = Environment.GetEnvironmentVariable("Test-LocalPath");
-            _syncOptions.locale = Environment.GetEnvironmentVariable("Test-Locale");
-            _guid = Environment.GetEnvironmentVariable("Test-InstanceGuid");
-            _apiKey = Environment.GetEnvironmentVariable("Test-APIKey");
+            _syncOptions.rootPath = Environment.GetEnvironmentVariable("Test-LocalPath") ?? "";
+            _syncOptions.locale = Environment.GetEnvironmentVariable("Test-Locale") ?? "";
+            _guid = Environment.GetEnvironmentVariable("Test-InstanceGuid") ?? "";
+            _apiKey = Environment.GetEnvironmentVariable("Test-APIKey") ?? "";
             _isPreview = Environment.GetEnvironmentVariable("Test-IsPreview") == "true" ? true : false;
             _syncClient = new SyncClient(_guid, _apiKey, _isPreview, _syncOptions);
         }
@@ -130,7 +130,7 @@ namespace AgilityCMS.Net.Sync.Tests
 
                 var testContentRef = Environment.GetEnvironmentVariable("Test-ContentReferenceName");
                 var testContentIDStr = Environment.GetEnvironmentVariable("Test-ContentID");
-                var testContentID = int.Parse(testContentIDStr);
+                var testContentID = int.Parse(testContentIDStr ?? "");
 
                 _syncClient.SynContent();
 
@@ -138,8 +138,8 @@ namespace AgilityCMS.Net.Sync.Tests
 
                 Assert.AreEqual(testContentID, actualSyncContent1.contentID);
 
-                var actualList1 = _syncClient.store.GetContentList(testContentRef, $"{_syncOptions.locale}");
-                Assert.AreEqual(testContentRef, actualList1[0].properties.referenceName);
+                var actualList1 = _syncClient.store.GetContentList(testContentRef ?? "", $"{_syncOptions.locale}");
+                Assert.AreEqual(testContentRef, actualList1[0].properties.referenceName ?? "");
             }
             catch (Exception ex)
             {
