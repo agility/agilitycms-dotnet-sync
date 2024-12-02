@@ -225,7 +225,7 @@ namespace AgilityCMS.Net.Sync
 			}
 			catch (Exception ex)
 			{
-				throw ex;
+				throw new Exception("Error in Sync Pages", ex);
 			}
 
 		}
@@ -326,7 +326,7 @@ namespace AgilityCMS.Net.Sync
 			}
 			catch (Exception ex)
 			{
-				throw ex;
+				throw new Exception("Error in Sync Content", ex);
 			}
 
 		}
@@ -342,7 +342,7 @@ namespace AgilityCMS.Net.Sync
 		{
 			try
 			{
-				syncApiRequest = new RestRequest($"/{_syncOptions.locale}/sync/pages?syncToken={pagesSyncToken}&pageSize={pageSize}", Method.GET);
+				syncApiRequest = new RestRequest($"/{_syncOptions.locale}/sync/pages?syncToken={pagesSyncToken}&pageSize={pageSize}", Method.Get);
 				var restRespose = client.Execute<string>(syncApiRequest).Data;
 				if (restRespose == null)
 				{
@@ -368,7 +368,7 @@ namespace AgilityCMS.Net.Sync
 		{
 			try
 			{
-				syncApiRequest = new RestRequest($"/{_syncOptions.locale}/sync/items?syncToken={contentSyncToken}&pageSize={pageSize}", Method.GET);
+				syncApiRequest = new RestRequest($"/{_syncOptions.locale}/sync/items?syncToken={contentSyncToken}&pageSize={pageSize}", Method.Get);
 				var restRespose = client.Execute<string>(syncApiRequest).Data;
 				if (restRespose == null)
 				{
