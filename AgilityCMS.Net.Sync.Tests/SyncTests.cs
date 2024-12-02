@@ -1,11 +1,6 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using AgilityCMS.Net.Sync.SDK;
 using System;
-using Newtonsoft.Json;
-using AgilityCMS.Net.Sync.SDK.Models.Page;
-using System.IO;
-using AgilityCMS.Net.Sync.SDK.Models.Item;
-using System.Collections.Generic;
 
 namespace AgilityCMS.Net.Sync.Tests
 {
